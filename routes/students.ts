@@ -1,8 +1,8 @@
-const express = require('express')
-const mysql = require('mysql2');
-const path = require('path');
-const app = express()
-const port = 3000
+import express, { Request, Response } from 'express';
+import mysql from 'mysql2';
+import path from 'path';
+const app = express();
+const port = 3000;
 
 // // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //DB
 // Create a MySQL connection pool
+const STUDENT_TABLE = 'student';
 const pool = mysql.createPool({
   host: 'localhost', // Replace with your database host
   user: 'root', // Replace with your MySQL username
@@ -21,9 +22,9 @@ const pool = mysql.createPool({
 });
 
 // Function to execute a database query using the pool
-function executeQuery(sql , params ) {
+function executeQuery(sql:string , params:Array<string | number> ) {
   return new Promise((resolve, reject) => {
-    pool.query(sql, params, (err , results ) => {
+    pool.query(sql, params, (err:any , results:string|any) => {
       if (err) {
         reject(err);
       } else {
@@ -32,8 +33,18 @@ function executeQuery(sql , params ) {
     });
   });
 }
-const STUDENT_TABLE = 'student';
-app.get('/students', async(req , res ) => {
+
+interface RequestBody {
+    username: string;
+    name: string;
+    surname: string;
+    password: string;
+    permission: number;
+    course: string;
+    module: string;
+}
+
+app.get('/students', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ STUDENT_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
@@ -45,32 +56,31 @@ app.get('/students', async(req , res ) => {
   }
 })
 
-app.get('/student/:id', async(req , res ) => {
+app.get('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
   try {
-    let id = req.params.id;
-    let query = 'SELECT * FROM '+ STUDENT_TABLE +' WHERE id ='+id;
-    let results = await executeQuery(query, [id]); 
+    const id = req.params.id;
+    const query = 'SELECT * FROM '+ STUDENT_TABLE +' WHERE id ='+id;
+    const results = await executeQuery(query, [id]); 
     res.json(results);
 
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' });
   }
-})
+});
 
-app.post('/student/create', async(req , res ) =>{
-  
+app.post('/student/create', async(req: Request<RequestBody> , res: Response) => {
   try {
-    let username = req.body.username;
-    let name = req.body.name;
-    let surname = req.body.surname;
-    let password = req.body.password;
-    let permission = req.body.permission;
-    let course = req.body.course;
-    let module = req.body.module;
+    const username = req.body.username;
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const password = req.body.password;
+    const permission = req.body.permission;
+    const course = req.body.course;
+    const module = req.body.module;
   
-    let query = "INSERT INTO "+STUDENT_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
-    let results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
+    const query = "INSERT INTO "+STUDENT_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
+    const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
     res.status(201).json(results);
 
   } catch (error) {
@@ -79,17 +89,16 @@ app.post('/student/create', async(req , res ) =>{
   }
 });
 
-app.post('/student/:id/update', async(req , res ) => {
+app.post('/student/:id/update', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
-    let id = req.body.id;
-    let username = req.body.username;
-    let name = req.body.name;
-    let surname = req.body.surname;
-    let password = req.body.password;
-    let permission = req.body.permission;
-    let course = req.body.course;
-    let module = req.body.module;
-
+    const id = req.params.id;
+    const username = req.body.username;
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const password = req.body.password;
+    const permission = req.body.permission;
+    const course = req.body.course;
+    const module = req.body.module;
 
     //todo: allow to update only one value without affecting others
     const query = 'UPDATE '+STUDENT_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
@@ -102,9 +111,9 @@ app.post('/student/:id/update', async(req , res ) => {
   }
 });
 
-app.post('/student/:id/delete', async(req , res ) => {
+app.post('/student/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
-      let id = req.params.id;
+      const id =  req.params.id;
       const query = 'DELETE FROM student WHERE id =' +id;
       const results = await executeQuery(query, [id]);
       res.json(results);
