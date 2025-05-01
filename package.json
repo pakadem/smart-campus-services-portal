@@ -2,12 +2,12 @@
   "name": "smart-campus-services-portal",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node routes/students.js",
     "client": "cd client && npm start",
-    "server": "nodemon index.js",
+    "server": "nodemon index.ts",
     "dev": "nodemon --watch 'routes/students.js' --exec 'ts-node' routes/students.js"
   },
   "keywords": [],
@@ -20,6 +20,13 @@
     "pug": "^3.0.3"
   },
   "devDependencies": {
-    "ts-node": "^10.9.2"
+    "@eslint/js": "^9.25.1",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.0.0",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.31.1"
   }
 }
