@@ -1,0 +1,25 @@
+{
+  "name": "smart-campus-services-portal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node routes/students.js",
+    "client": "cd client && npm start",
+    "server": "nodemon index.js",
+    "dev": "nodemon --watch 'routes/students.js' --exec 'ts-node' routes/students.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "pug": "^3.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
