@@ -45,16 +45,11 @@ app.get('/announcement/:id', async(req: Request<{ id: number}, RequestBody> , re
 
 app.post('/announcement/create', async(req: Request<RequestBody> , res: Response) => {
   try {
-    const username = req.body.username;
-    const name = req.body.name;
-    const surname = req.body.surname;
-    const password = req.body.password;
-    const permission = req.body.permission;
-    const course = req.body.course;
-    const module = req.body.module;
+    const title = req.body.title;
+    const message = req.body.message;
   
-    const query = "INSERT INTO "+ANNOUNCE_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
-    const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
+    const query = "INSERT INTO "+ANNOUNCE_TABLE+" (title, message) VALUES (?,?)";
+    const results = await executeQuery(query, [title, title]);
     res.status(201).json(results);
 
   } catch (error) {
@@ -63,7 +58,7 @@ app.post('/announcement/create', async(req: Request<RequestBody> , res: Response
   }
 });
 
-app.post('/announcement/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.delete('/announcement/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
   try {
     const id =  req.params.id;
     const query = 'DELETE FROM '+ANNOUNCE_TABLE+' WHERE id =' +id;
@@ -79,3 +74,5 @@ app.post('/announcement/:id/delete', async(req: Request<{ id: number}, RequestBo
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+module.exports = app;

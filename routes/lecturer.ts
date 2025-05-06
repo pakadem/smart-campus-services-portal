@@ -69,7 +69,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   }
 });
 
-app.post('/lecturer/:id/update', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -91,7 +91,7 @@ app.post('/lecturer/:id/update', async(req: Request<{ id: number}, RequestBody> 
   }
 });
 
-app.post('/lecturer/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.delete('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+LECTURER_TABLE+' WHERE id =' +id;

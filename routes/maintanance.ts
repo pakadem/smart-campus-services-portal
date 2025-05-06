@@ -48,16 +48,16 @@ app.get('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res
 
 app.post('/maintanance/create', async(req: Request<RequestBody> , res: Response) => {
   try {
-    const username = req.body.username;
-    const name = req.body.name;
-    const surname = req.body.surname;
-    const password = req.body.password;
-    const permission = req.body.permission;
-    const course = req.body.course;
-    const module = req.body.module;
+    const title = req.body.title;
+    const reporter = req.body.reporter;
+    const campus = req.body.campus;
+    const building = req.body.building;
+    const room = req.body.room;
+    const status = req.body.status;
+    const message = req.body.message;
   
-    const query = "INSERT INTO "+MAINTANANCE_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
-    const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
+    const query = "INSERT INTO "+MAINTANANCE_TABLE+" (title, reporter, campus, building, room, status, message) VALUES (?,?,?,?,?,?,? )";
+    const results = await executeQuery(query, [title, reporter, campus, building, room, status, message]);
     res.status(201).json(results);
 
   } catch (error) {
@@ -66,20 +66,20 @@ app.post('/maintanance/create', async(req: Request<RequestBody> , res: Response)
   }
 });
 
-app.post('/maintanance/:id/update', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.put('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
-    const username = req.body.username;
-    const name = req.body.name;
-    const surname = req.body.surname;
-    const password = req.body.password;
-    const permission = req.body.permission;
-    const course = req.body.course;
-    const module = req.body.module;
+    const title = req.body.title;
+    const reporter = req.body.reporter;
+    const campus = req.body.campus;
+    const building = req.body.building;
+    const room = req.body.room;
+    const status = req.body.status;
+    const message = req.body.message;
 
     //todo: allow to update only one value without affecting others
-    const query = 'UPDATE '+MAINTANANCE_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
-    const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
+    const query = 'UPDATE '+MAINTANANCE_TABLE+' SET title = ?, reporter = ?, campus = ?, building = ?, room = ?, status = ?, message = ? WHERE id =' +id;
+    const results = await executeQuery(query,  [title, reporter, campus, building, room, status, message]);
     res.json(results);
 
   } catch (error) {
@@ -88,7 +88,7 @@ app.post('/maintanance/:id/update', async(req: Request<{ id: number}, RequestBod
   }
 });
 
-app.post('/maintanance/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.delete('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+MAINTANANCE_TABLE+' WHERE id =' +id;
@@ -102,5 +102,5 @@ app.post('/maintanance/:id/delete', async(req: Request<{ id: number}, RequestBod
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })

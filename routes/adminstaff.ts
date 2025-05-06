@@ -66,7 +66,7 @@ app.post('/adminstaff/create', async(req: Request<RequestBody> , res: Response) 
   }
 });
 
-app.post('/adminstaff/:id/update', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.put('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -88,7 +88,7 @@ app.post('/adminstaff/:id/update', async(req: Request<{ id: number}, RequestBody
   }
 });
 
-app.post('/adminstaff/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.delete('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+ADMINSTAFF_TABLE+' WHERE id =' +id;
