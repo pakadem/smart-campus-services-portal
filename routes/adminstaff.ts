@@ -91,7 +91,7 @@ app.post('/adminstaff/:id/update', async(req: Request<{ id: number}, RequestBody
 app.post('/adminstaff/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
-      const query = 'DELETE FROM adminstaff WHERE id =' +id;
+      const query = 'DELETE FROM '+ADMINSTAFF_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
       res.json(results);
   

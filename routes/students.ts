@@ -91,7 +91,7 @@ app.post('/student/:id/update', async(req: Request<{ id: number}, RequestBody> ,
 app.post('/student/:id/delete', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
-      const query = 'DELETE FROM student WHERE id =' +id;
+      const query = 'DELETE FROM '+STUDENT_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
       res.json(results);
   
