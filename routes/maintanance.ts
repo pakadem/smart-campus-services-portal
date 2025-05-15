@@ -101,6 +101,19 @@ app.delete('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , 
     }
 });
 
+app.get('/maintanance/report', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+    try {
+      const id = req.params.id;
+      const query = 'SELECT * FROM '+ MAINTANANCE_TABLE +' WHERE id ='+id;
+      const results = await executeQuery(query, [id]); 
+      res.json(results);
+  
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ error: 'Failed to retrieve users' });
+    }
+  });
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })

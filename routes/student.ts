@@ -8,7 +8,10 @@ const port = 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '../public')));
 interface RequestBody {
     username: string;
     name: string;
@@ -25,8 +28,8 @@ app.get('/students', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ STUDENT_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
-    res.json(results); // Send the results as JSON
-
+    //res.json(results); // Send the results as JSON
+    res.render('student/index', { data: results })
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' }); // Send an error response
@@ -38,8 +41,8 @@ app.get('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Re
     const id = req.params.id;
     const query = 'SELECT * FROM '+ STUDENT_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.json(results);
-
+    // res.json(results);
+    res.render('student/view', { data: results });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' });
@@ -47,6 +50,9 @@ app.get('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Re
 });
 
 app.post('/student/create', async(req: Request<RequestBody> , res: Response) => {
+
+  console.log("req.body: ");
+  console.log(req);
   try {
     const username = req.body.username;
     const name = req.body.name;
@@ -55,10 +61,13 @@ app.post('/student/create', async(req: Request<RequestBody> , res: Response) => 
     const permission = req.body.permission;
     const course = req.body.course;
     const module = req.body.module;
+
   
     const query = "INSERT INTO "+STUDENT_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.status(201).json(results);
+    
+    // res.status(201).json(results);
+    res.redirect('/students');
 
   } catch (error) {
     console.error('Error Creating users:', error);
@@ -66,7 +75,7 @@ app.post('/student/create', async(req: Request<RequestBody> , res: Response) => 
   }
 });
 
-app.put('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.post('/student_update/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -80,7 +89,10 @@ app.put('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Re
     //todo: allow to update only one value without affecting others
     const query = 'UPDATE '+STUDENT_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.json(results);
+    // var resultsJson = res.json(results);
+    // const statusCode = resultsJson.statusCode;
+    const message = encodeURIComponent('Updated successfully!');
+    res.redirect('/student/'+ req.params.id +'?message=${message}'); 
 
   } catch (error) {
     console.error('Error Updating users:', error);
@@ -88,13 +100,12 @@ app.put('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Re
   }
 });
 
-app.delete('/student/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.post('/student_delete/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+STUDENT_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
-      res.json(results);
-  
+      res.redirect('/students');
     } catch (error) {
       console.error('Error Deleting users:', error);
       res.status(500).json({ error: 'Failed to retrieve users' });

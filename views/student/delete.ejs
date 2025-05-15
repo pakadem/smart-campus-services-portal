@@ -1,0 +1,135 @@
+
+<%- include('../partials/header') %>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="index.html" class="logo">
+					Ready Dashboard
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<%- include('../partials/navbar') %>
+			</div>
+            <%- include('../partials/sidebar') %>
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<div class="card card-stats card-success">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-left">
+											<i class="la la-check-circle"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<h4 class="card-title">Success</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<h4 class="page-title">Student Details</h4>
+						<div class="row">
+								<div class="col-md-12">
+									<div class="card"> 
+                                    <% data.forEach(data => { %>
+										<div class="card-header">
+                                            
+											<div class="card-title">Student: <%= data.name %> <%= data.surname %></div>
+											<div class="card-title">User ID: <%= data.id %></div>
+										</div>
+										<form action="../student_update/<%= data.id %>" method="POST"><input type="hidden" name="_method" value="PUT">
+											<div class="card-body">
+
+												<div class="form-group col-md-6">
+													<label for="username">Username</label>
+													<input type="text" class="form-control form-control-sm" id="username" name="username" value="<%= data.username %>" placeholder="" readonly>
+												</div>
+												<div class="form-group col-md-6">
+													<label for="name">Name</label>
+													<input type="text" class="form-control form-control-sm" id="name" name="name" value="<%= data.name %>" placeholder="">
+												</div>
+												<div class="form-group col-md-6">
+													<label for="surname">Surname</label>
+													<input type="text" class="form-control form-control-sm" id="surname" name="surname" value="<%= data.surname %>" placeholder="">
+												</div>
+												<div class="form-group col-md-6">
+													<label for="password">Password</label>
+													<input type="password" class="form-control form-control-sm" id="password" name="password" value="<%= data.password %>" placeholder="">
+												</div>
+												<div class="form-group col-md-6">
+													<label for="course">Course</label>
+													<input type="text" class="form-control form-control-sm" id="course" name="course" value="<%= data.course %>" placeholder="">
+												</div>
+												<div class="form-group col-md-6">
+													<label for="module">Module</label>
+														<input type="text" class="form-control form-control-sm" id="module" name="module" value="<%= data.module %>" placeholder="">
+												</div>
+												<div class="form-group col-md-6">
+													<label for="permission">Permissions</label>
+													<select class="form-control form-control-sm" id="permission" value="<%= data.permission %>" name="permission" >
+														<option value="1">1 - Student Permissions</option>
+														<option value="2">2 - Lectures Permissions</option>
+														<option value="3">3 - Full Permissions</option>
+													</select>
+												</div>
+											</div>
+											<div class="card-action">
+												<a href="../students/" class="btn btn-success">
+													Back to Students
+												</a>
+												<button class="btn btn-warning" type="submit" name="submit" >Update Student</button>
+												<a href="../student_delete/<%= data.id %>" class="btn btn-danger">
+													Delete
+												</a>
+												<div class="nav-item update-pro">
+													<button  data-toggle="modal" data-target="#modalUpdate">
+														<i class="la la-hand-pointer-o"></i>
+														<p>Update To Pro</p>
+													</button>
+												</div>
+											</div>
+										</form>
+                                    <% }); %>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+                <%- include('../partials/footer') %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">									
+				<p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+				<p>
+				<b>We'll let you know when it's done</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<%- include('../partials/footer-scripts') %>
+</html>
