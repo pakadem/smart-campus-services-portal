@@ -35,17 +35,17 @@
 							</div>
 						</div>
 
-						<h4 class="page-title">Student Details</h4>
+						<h4 class="page-title">Admin Staff Details</h4>
 						<div class="row">
 								<div class="col-md-12">
 									<div class="card"> 
                                     <% data.forEach(data => { %>
 										<div class="card-header">
                                             
-											<div class="card-title">Student: <%= data.name %> <%= data.surname %></div>
+											<div class="card-title">Admin Staff: <%= data.name %> <%= data.surname %></div>
 											<div class="card-title">User ID: <%= data.id %></div>
 										</div>
-										<form action="../student_update/<%= data.id %>" method="POST"><input type="hidden" name="_method" value="PUT">
+										<form action="../adminstaff/<%= data.id %>" method="POST"><input type="hidden" name="_method" value="PUT">
 											<div class="card-body">
 
 												<div class="form-group col-md-6">
@@ -64,29 +64,22 @@
 													<label for="password">Password</label>
 													<input type="password" class="form-control form-control-sm" id="password" name="password" value="<%= data.password %>" placeholder="">
 												</div>
-												<div class="form-group col-md-6">
-													<label for="course">Course</label>
-													<input type="text" class="form-control form-control-sm" id="course" name="course" value="<%= data.course %>" placeholder="">
-												</div>
-												<div class="form-group col-md-6">
-													<label for="module">Module</label>
-														<input type="text" class="form-control form-control-sm" id="module" name="module" value="<%= data.module %>" placeholder="">
-												</div>
+												
 												<div class="form-group col-md-6">
 													<label for="permission">Permissions</label>
 													<select class="form-control form-control-sm" id="permission" value="<%= data.permission %>" name="permission" >
-														<option value="1">1 - Student Permissions</option>
+														<option value="1">1 - Admin Staff Permissions</option>
 														<option value="2">2 - Lectures Permissions</option>
 														<option value="3">3 - Full Permissions</option>
 													</select>
 												</div>
 											</div>
 											<div class="card-action">
-												<a href="../students/" class="btn btn-success">
-													Back to Students
+												<a href="../adminstaffs/" class="btn btn-success">
+													Back to Admin Staff
 												</a>
-												<button class="btn btn-warning" type="submit" name="submit" >Update Student</button>
-												<a href="../student_delete/<%= data.id %>" class="btn btn-danger">
+												<button class="btn btn-warning" type="submit" name="submit" >Update Admin Staff</button>
+												<a href="../adminstaff/<%= data.id %>" class="btn btn-danger">
 													Delete
 												</a>
 												<div class="nav-item update-pro">
