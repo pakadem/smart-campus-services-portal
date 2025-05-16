@@ -25,7 +25,8 @@ app.get('/adminstaffs', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ ADMINSTAFF_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
-    res.json(results); // Send the results as JSON
+   //res.json(results);
+    res.render('adminstaffs/index' , { data: results }); // Send the results as JSON
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -38,7 +39,8 @@ app.get('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res:
     const id = req.params.id;
     const query = 'SELECT * FROM '+ ADMINSTAFF_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.json(results);
+   // res.json(results);
+   res.render('adminstaff/view', { data: results });
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -58,15 +60,16 @@ app.post('/adminstaff/create', async(req: Request<RequestBody> , res: Response) 
   
     const query = "INSERT INTO "+ADMINSTAFF_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.status(201).json(results);
-
+  
+    // res.status(201).json(results);
+   res.redirect('/adminstaff');
   } catch (error) {
     console.error('Error Creating users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' });
   }
 });
 
-app.put('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.post('/adminstaff_update/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -78,9 +81,10 @@ app.put('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res:
     const module = req.body.module;
 
     //todo: allow to update only one value without affecting others
-    const query = 'UPDATE '+ADMINSTAFF_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
-    const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.json(results);
+    const query = 'UPDATE '+ADMINSTAFF_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ? WHERE id =' +id;
+    const results = await executeQuery(query, [username, name, surname, password, permission]);
+    const message = encodeURIComponent('Updated successfully!');
+    res.redirect('/adminstaffs/'+ req.params.id +'?message=${message}');
 
   } catch (error) {
     console.error('Error Updating users:', error);
@@ -88,12 +92,12 @@ app.put('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res:
   }
 });
 
-app.delete('/adminstaff/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.post('/adminstaff_delete/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+ADMINSTAFF_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
-      res.json(results);
+      res.redirect('/adminstaffs/');
   
     } catch (error) {
       console.error('Error Deleting users:', error);

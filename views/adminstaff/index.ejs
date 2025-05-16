@@ -20,7 +20,7 @@
 					<div class="container-fluid">
 
 
-						<h4 class="page-title">All Students</h4>
+						<h4 class="page-title">All Admin Staff</h4>
 						<div class="row">
                             <div class="col-md-12">
                                 <div class="col-md-12">
@@ -28,9 +28,9 @@
                                 <div class="row px-6">
                                 <div class="card"> 
                                     <div class="card-header">
-                                        <div class="card-title">Add New Student</div>
+                                        <div class="card-title">Add New Admin Staff</div>
                                     </div>
-                                        <form action="../student/create" method="POST">   
+                                        <form action="../adminstaff/" method="POST">   
                                             <div class="card-body row px-6">
                                                 <div class="form-group col-md-6">
                                                     <label for="username">Username</label>
@@ -45,21 +45,14 @@
                                                     <input type="text" class="form-control form-control-sm" id="surname" name="surname" placeholder="">
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="password">Course</label>
-                                                    <input type="text" class="form-control form-control-sm" id="password" name="password" placeholder="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="course">Course</label>
-                                                    <input type="text" class="form-control form-control-sm" id="course" name="course" placeholder="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="module">Module</label>
-                                                    <input type="text" class="form-control form-control-sm" id="module" name="module" laceholder="">
-                                                </div>
+													<label for="password">Password</label>
+													<input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="">
+												</div>
+
                                                 <div class="form-group col-md-6">
                                                     <label for="permission">Permissions</label>
                                                     <select class="form-control form-control-sm" id="permission" name="permission" >
-                                                        <option value="1">1 - Student Permissions</option>
+                                                        <option value="1">1 - Admin Staff Permissions</option>
                                                         <option value="2">2 - Lectures Permissions</option>
                                                         <option value="3">3 - Full Permissions</option>
                                                     </select>
@@ -77,7 +70,7 @@
 							<div class="col-md-12">
 								<div class="card">
 									<div class="card-header">
-										<div class="card-title">List of Students</div>
+										<div class="card-title">List of Admin Staff</div>
 									</div>
 									<div class="card-body">
 										<table class="table table-striped mt-3">
@@ -97,7 +90,7 @@
                                                         <td><%= data.username %> </td>
                                                         <td><%= data.name %> </td>
                                                         <td><%= data.surname %> </td>
-                                                        <td><a class="btn btn-primary  btn-xs"  href="../student/<%= data.id %>">View</a></td>
+                                                        <td><a class="btn btn-primary  btn-xs"  href="../adminstaff/<%= data.id %>">View</a></td>
                                                     </tr>
                                                   <% }); %>
 											</tbody>
