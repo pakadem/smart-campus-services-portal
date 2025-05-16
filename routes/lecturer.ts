@@ -8,10 +8,10 @@ const port = 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
-//DB
-// Create a MySQL connection pool
+
+app.use(express.static(path.join(__dirname, '../public')));
 const LECTURER_TABLE = 'lecturer';
 
 interface RequestBody {
@@ -28,7 +28,7 @@ app.get('/lecturers', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ LECTURER_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
-    res.json(results); // Send the results as JSON
+     res.render('lecturer/index', { data: results });
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -41,8 +41,7 @@ app.get('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: R
     const id = req.params.id;
     const query = 'SELECT * FROM '+ LECTURER_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.json(results);
-
+    res.render('lecturer/view', { data: results });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' });
@@ -50,6 +49,9 @@ app.get('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: R
 });
 
 app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) => {
+
+  console.log("req.body: ");
+  console.log(req);
   try {
     const username = req.body.username;
     const name = req.body.name;
@@ -61,7 +63,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   
     const query = "INSERT INTO "+LECTURER_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.status(201).json(results);
+    res.redirect('/lecturer');
 
   } catch (error) {
     console.error('Error Creating users:', error);
@@ -69,7 +71,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   }
 });
 
-app.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.post('/lecturer_update/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -83,7 +85,8 @@ app.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: R
     //todo: allow to update only one value without affecting others
     const query = 'UPDATE '+LECTURER_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.json(results);
+   const message = encodeURIComponent('Updated successfully!');
+    res.redirect('/lecturer/'+ req.params.id +'?message=${message}'); 
 
   } catch (error) {
     console.error('Error Updating users:', error);
@@ -91,13 +94,12 @@ app.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: R
   }
 });
 
-app.delete('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.post('/lecturer_delete/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+LECTURER_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
-      res.json(results);
-  
+      res.redirect('/lecturer');
     } catch (error) {
       console.error('Error Deleting users:', error);
       res.status(500).json({ error: 'Failed to retrieve users' });
