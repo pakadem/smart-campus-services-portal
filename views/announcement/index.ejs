@@ -1,0 +1,85 @@
+<%- include('../partials/header') %>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="index.html" class="logo">
+					Ready Dashboard
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<%- include('../partials/navbar') %>
+			</div>
+            <%- include('../partials/sidebar') %>
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+
+
+						<h4 class="page-title">Annoucement</h4>
+						<div class="row">
+                            <div class="col-md-12">
+                                <div class="card"> 
+                                    <div class="card-header">
+                                        <div class="card-title">Add New Annoucement</div>
+                                    </div>
+                                        <form action="../announcement/create" method="POST">   
+                                            <div class="card-body ">
+                                                <div class="form-group col-md-12">
+                                                    <label for="title">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" id="title" name="title" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="message">Message</label>
+                                                    <textarea type="text" class="form-control form-control-sm" id="message" name="message" placeholder="Add Annoucement body here..." rows="8" cols="70">
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="card-action">
+                                                <button class="btn btn-success" type="submit" name="submit" >Submit</button>
+                                                <button class="btn btn-danger">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                            </div>
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">All Announcements</div>
+									</div>
+									<div class="card-body">
+										<table class="table table-striped mt-3">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">Title</th>
+													<th scope="col">Created Time</th>
+												</tr>
+											</thead>
+											<tbody>
+                                                <% data.forEach(data => { %>
+                                                    <tr>
+                                                        <td><%= data.id %></td>
+                                                        <td><%= data.title %> </td>
+                                                        <td><%= data.created_time %> </td>
+                                                        <td><a class="btn btn-primary  btn-xs"  href="../announcement/<%= data.id %>">View</a></td>
+                                                    </tr>
+                                                  <% }); %>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <%- include('../partials/footer') %>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

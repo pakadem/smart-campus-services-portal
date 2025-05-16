@@ -29,7 +29,7 @@ app.get('/students', async(req: Request<RequestBody> , res: Response) => {
     const query = 'SELECT * FROM '+ STUDENT_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
     //res.json(results); // Send the results as JSON
-    res.render('student/index', { data: results })
+    res.render('student/index', { data: results });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' }); // Send an error response

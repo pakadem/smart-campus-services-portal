@@ -1,0 +1,117 @@
+
+<%- include('../partials/header') %>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="index.html" class="logo">
+					Ready Dashboard
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<%- include('../partials/navbar') %>
+			</div>
+            <%- include('../partials/sidebar') %>
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+
+
+						<h4 class="page-title">All Students</h4>
+						<div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+
+                                <div class="row px-6">
+                                <div class="card"> 
+                                    <div class="card-header">
+                                        <div class="card-title">Add New Student</div>
+                                    </div>
+                                        <form action="../student/create" method="POST">   
+                                            <div class="card-body row px-6">
+                                                <div class="form-group col-md-6">
+                                                    <label for="username">Username</label>
+                                                    <input type="text" class="form-control form-control-sm" id="username" name="username" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" class="form-control form-control-sm" id="name" name="name" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="surname">Surname</label>
+                                                    <input type="text" class="form-control form-control-sm" id="surname" name="surname" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="password">Course</label>
+                                                    <input type="text" class="form-control form-control-sm" id="password" name="password" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="course">Course</label>
+                                                    <input type="text" class="form-control form-control-sm" id="course" name="course" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="module">Module</label>
+                                                    <input type="text" class="form-control form-control-sm" id="module" name="module" laceholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="permission">Permissions</label>
+                                                    <select class="form-control form-control-sm" id="permission" name="permission" >
+                                                        <option value="1">1 - Student Permissions</option>
+                                                        <option value="2">2 - Lectures Permissions</option>
+                                                        <option value="3">3 - Full Permissions</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="card-action">
+                                                <button class="btn btn-success" type="submit" name="submit" >Submit</button>
+                                                <button class="btn btn-danger">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">List of Students</div>
+									</div>
+									<div class="card-body">
+										<table class="table table-striped mt-3">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">Username</th>
+													<th scope="col">name</th>
+													<th scope="col">Surnane</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+                                                <% data.forEach(data => { %>
+                                                    <tr>
+                                                        <td><%= data.id %></td>
+                                                        <td><%= data.username %> </td>
+                                                        <td><%= data.name %> </td>
+                                                        <td><%= data.surname %> </td>
+                                                        <td><a class="btn btn-primary  btn-xs"  href="../student/<%= data.id %>">View</a></td>
+                                                    </tr>
+                                                  <% }); %>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <%- include('../partials/footer') %>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

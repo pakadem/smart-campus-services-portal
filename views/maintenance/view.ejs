@@ -1,0 +1,142 @@
+
+<%- include('../partials/header') %>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="index.html" class="logo">
+					Ready Dashboard
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<%- include('../partials/navbar') %>
+			</div>
+            <%- include('../partials/sidebar') %>
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<div class="card card-stats card-success">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-left">
+											<i class="la la-check-circle"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<h4 class="card-title">Success</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<h4 class="page-title">Student Details</h4>
+						<div class="row">
+								<div class="col-md-12">
+									<div class="card"> 
+                                    <% data.forEach(data => { %>
+										<div class="card-header">
+                                            
+											<div class="card-title"><%= data.title %></div>
+											<div class="card-title">User ID: <%= data.id %></div>
+										</div>
+										<form action="../maintenance_update/<%= data.id %>" method="POST"><input type="hidden" name="_method" value="PUT">
+											<div class="card-body row px-6">
+                                                <div class="form-group col-md-12">
+                                                    <label for="title">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" id="title" name="title" value="<%= data.title %>" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="campus">Campus</label>
+                                                    <input type="text" class="form-control form-control-sm" id="campus" name="campus" value="<%= data.campus %>" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="building">Building</label>
+                                                    <input type="text" class="form-control form-control-sm" id="building" name="building" value="<%= data.building %>" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="room">Room</label>
+                                                    <input type="text" class="form-control form-control-sm" id="room" name="room" value="<%= data.room %>" placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="status">Status</label>
+                                                    <select class="form-control form-control-sm" id="status" value="<%= data.status %>" name="status" >
+                                                        <option value="submitted">Submitted</option>
+                                                        <option value="in-progress">In-Progress</option>
+                                                        <option value="complete">Complete</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="message">Message</label>
+                                                    <textarea type="text" class="form-control form-control-sm" id="message" name="message" rows="8" cols="70">
+														<%= data.message %>
+                                                    </textarea>
+                                                </div>
+                                            </div>
+											<div class="card-action">
+												<a href="../maintenances" class="btn btn-success">
+													Back
+												</a>
+												<button class="btn btn-warning" type="submit" name="submit" >Update</button>
+											</div>
+										</form>
+                                    <% }); %>
+									</div>
+								</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card"> 
+								<% data.forEach(data => { %>
+									<div class="card-header">
+										
+										<div class="card-title">DELETE Request: <%= data.title %></div>
+										<div class="card-title">User ID: <%= data.id %></div>
+									</div>
+									<form action="../maintenance_delete/<%= data.id %>" method="POST"><input type="hidden" name="_method" value="PUT">
+									
+										<div class="card-action">
+											<button class="btn btn-danger" type="submit" name="submit" >Delete Request</button>
+										</div>
+									</form>
+								<% }); %>
+								</div>
+							</div>
+					</div>
+					</div>
+				</div>
+                <%- include('../partials/footer') %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body text-center">									
+				<p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+				<p>
+				<b>We'll let you know when it's done</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<%- include('../partials/footer-scripts') %>
+</html>

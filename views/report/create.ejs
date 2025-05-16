@@ -1,0 +1,75 @@
+
+<%- include('../partials/header') %>
+<body>
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="index.html" class="logo">
+					Ready Dashboard
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<%- include('../partials/navbar') %>
+			</div>
+            <%- include('../partials/sidebar') %>
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<h4 class="page-title">Create a Student</h4>
+						<div class="row">
+								<div class="col-md-12">
+									<div class="card"> 
+                                    <% data.forEach(data => { %>
+                                       
+                                     
+										<div class="card-header">
+                                            
+											<div class="card-title">Student: <%= data.name %> <%= data.surname %></div>
+										</div>
+										<div class="card-body row">
+											<div class="form-group col-md-6">
+												<label for="username">Username</label>
+												<input type="text" class="form-control form-control-sm" id="username" placeholder="<%= data.username %>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="name">Name</label>
+												<input type="text" class="form-control form-control-sm" id="name" placeholder="<%= data.username %>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="surname">Surname</label>
+												<input type="text" class="form-control form-control-sm" id="surname" placeholder="<%= data.surname %>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="course">Course</label>
+												<input type="text" class="form-control form-control-sm" id="course" placeholder="<%= data.course %>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="module">Module</label>
+												<input type="text" class="form-control form-control-sm" id="module" placeholder="<%= data.module %>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="permissions">Permissions</label>
+												<input type="text" class="form-control form-control-sm" id="permissions" placeholder="<%= data.permissions %>">
+											</div>
+											</div>
+										</div>
+                                    <% }); %>
+										<div class="card-action">
+											<button class="btn btn-success">Submit</button>
+											<button class="btn btn-danger">Cancel</button>
+										</div>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+                <%- include('../partials/footer') %>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

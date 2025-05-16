@@ -8,7 +8,10 @@ const port = 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '../public')));
 interface RequestBody {
     title: string;
     reporter: string;
@@ -21,24 +24,24 @@ interface RequestBody {
 
 const MAINTANANCE_TABLE = 'maintanance';
 
-app.get('/maintanances', async(req: Request<RequestBody> , res: Response) => {
+app.get('/maintenances', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ MAINTANANCE_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
-    res.json(results); // Send the results as JSON
-
+    res.render('maintenance/index', { data: results });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' }); // Send an error response
   }
 })
 
-app.get('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.get('/maintenance/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
   try {
     const id = req.params.id;
     const query = 'SELECT * FROM '+ MAINTANANCE_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.json(results);
+    
+    res.render('maintenance/view', { data: results });
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -46,7 +49,7 @@ app.get('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res
   }
 });
 
-app.post('/maintanance/create', async(req: Request<RequestBody> , res: Response) => {
+app.post('/maintenance/create', async(req: Request<RequestBody> , res: Response) => {
   try {
     const title = req.body.title;
     const reporter = req.body.reporter;
@@ -58,7 +61,8 @@ app.post('/maintanance/create', async(req: Request<RequestBody> , res: Response)
   
     const query = "INSERT INTO "+MAINTANANCE_TABLE+" (title, reporter, campus, building, room, status, message) VALUES (?,?,?,?,?,?,? )";
     const results = await executeQuery(query, [title, reporter, campus, building, room, status, message]);
-    res.status(201).json(results);
+    
+    res.redirect('/maintenances');
 
   } catch (error) {
     console.error('Error Creating users:', error);
@@ -66,7 +70,7 @@ app.post('/maintanance/create', async(req: Request<RequestBody> , res: Response)
   }
 });
 
-app.put('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.post('/maintenance_update/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const title = req.body.title;
@@ -80,7 +84,8 @@ app.put('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res
     //todo: allow to update only one value without affecting others
     const query = 'UPDATE '+MAINTANANCE_TABLE+' SET title = ?, reporter = ?, campus = ?, building = ?, room = ?, status = ?, message = ? WHERE id =' +id;
     const results = await executeQuery(query,  [title, reporter, campus, building, room, status, message]);
-    res.json(results);
+    
+    res.redirect('/maintenances');
 
   } catch (error) {
     console.error('Error Updating users:', error);
@@ -88,20 +93,21 @@ app.put('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res
   }
 });
 
-app.delete('/maintanance/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.post('/maintenance_delete/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+MAINTANANCE_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
-      res.json(results);
+      // res.json(results);
   
+      res.redirect('/maintenances');
     } catch (error) {
       console.error('Error Deleting users:', error);
       res.status(500).json({ error: 'Failed to retrieve users' });
     }
 });
 
-app.get('/maintanance/report', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.get('/maintenance/report', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id = req.params.id;
       const query = 'SELECT * FROM '+ MAINTANANCE_TABLE +' WHERE id ='+id;

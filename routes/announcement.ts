@@ -8,8 +8,10 @@ const port = 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '../public')));
 interface RequestBody {
   message: string;
   created_time: Date;
@@ -21,7 +23,7 @@ app.get('/announcements', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ ANNOUNCE_TABLE;
     const results = await executeQuery(query, []); 
-    res.json(results);
+    res.render('announcement/index', { data: results });
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -35,7 +37,7 @@ app.get('/announcement/:id', async(req: Request<{ id: number}, RequestBody> , re
     const id = req.params.id;
     const query = 'SELECT * FROM '+ ANNOUNCE_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.json(results);
+    res.render('announcement/view', { data: results });
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -49,9 +51,9 @@ app.post('/announcement/create', async(req: Request<RequestBody> , res: Response
     const message = req.body.message;
   
     const query = "INSERT INTO "+ANNOUNCE_TABLE+" (title, message) VALUES (?,?)";
-    const results = await executeQuery(query, [title, title]);
-    res.status(201).json(results);
-
+    const results = await executeQuery(query, [title, message]);
+    // res.status(201).json(results);
+    res.redirect('/announcements');
   } catch (error) {
     console.error('Error Creating users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' });
