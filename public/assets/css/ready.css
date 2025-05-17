@@ -2064,6 +2064,10 @@ body {
     color: #1D62F0 !important;
     font-size: 22px;
     border-radius: 5px;
+    text-decoration: none;
+}
+.main-header .logo-header a.logo:hover {
+  color: #0e41aa !important;
 }
 .main-header .logo-header a.logo i.la.la.la-contao.red {
   padding: 0px 4px 2px 3px;
@@ -2072,6 +2076,7 @@ body {
   color: #fff;
   font-size: 27px;
   border-radius: 5px;
+  margin-top: 14px;
 }
 nav.navbar.navbar-header.navbar-expand-lg {
   display: none !important;

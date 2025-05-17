@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { executeQuery } from '../database/db';
 import path from 'path';
 const app = express();
+
 const port = 3000;
 
 // // Set the view engine to EJS
@@ -211,7 +212,7 @@ app.get('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: R
     const id = req.params.id;
     const query = 'SELECT * FROM '+ LECTURER_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.render('lecturer/index', { data: results });
+    res.render('lecturer/view', { data: results });
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -239,7 +240,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   }
 });
 
-app.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.post('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -261,13 +262,12 @@ app.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: R
   }
 });
 
-app.delete('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+app.post('/lecturer_delete/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+LECTURER_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
-      res.json(results);
-  
+      res.redirect('/lecturers');
     } catch (error) {
       console.error('Error Deleting users:', error);
       res.status(500).json({ error: 'Failed to retrieve users' });
@@ -438,8 +438,7 @@ try {
   const query = "INSERT INTO "+ADMINSTAFF_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
   const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
 
-  // res.status(201).json(results);
- res.redirect('/adminstaff');
+  res.redirect('/adminstaff');
 } catch (error) {
   console.error('Error Creating users:', error);
   res.status(500).json({ error: 'Failed to retrieve users' });
@@ -482,7 +481,73 @@ app.post('/adminstaff_delete/:id', async(req: Request<{ id: number}, RequestBody
   }
 });
 
-//Timetabl
+//Login
+interface RequestBody {
+  username: string;
+  password: string;
+  permission: number;
+}
+app.get('/login', async(req: Request<RequestBody> , res: Response) => {
+  try {
+   
+   
+    
+    res.render('login/index' , { data: [] }); // Send the results as JSON 
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Failed to login, go back.' }); // Send an error response
+  }
+})
+
+app.post('/auth', async(req: Request<RequestBody> , res: Response) => {
+  try {
+   
+    const username = req.body.username;
+    console.log(req.body);
+    const password = req.body.password;
+    const permission = req.body.permission;
+
+    let results:any = 0;
+    if(permission == 1){
+      const query = "SELECT count(id) as amount FROM student WHERE username='"+username+"' AND password='"+password+"';";
+      console.log(query);
+      let results: any = await executeQuery(query, []);
+      results[0].amount;
+      if(results[0].amount){
+        res.redirect('/');
+      }
+      console.log( results ==  '[ { amount: 1 } ]');
+    }
+    if (permission == 2) {
+      const query = "SELECT count(id) FROM lecturer WHERE username='"+username+"' AND password='"+password+"';";
+      let results: any = await executeQuery(query, []);
+      results[0].amount;
+      if(results[0].amount){
+        res.redirect('/');
+      }
+    } 
+    if (permission == 3) {
+      const query = "SELECT count(id) FROM adminstaff WHERE username='"+username+"' AND password='"+password+"';";
+      let results: any = await executeQuery(query, []);
+      results[0].amount;
+      if(results[0].amount){
+        res.redirect('/');
+      }
+    } 
+    if(results > 0){
+      res.redirect('/');
+    }else{
+      res.status(500).json({ error: 'Failed to login, go back.' }); // Send an error response
+    }
+    
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Failed to login, go back.' }); // Send an error response
+  }
+})
+
+
+//Timetable
 app.get('/timetable', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ ADMINSTAFF_TABLE;
@@ -510,8 +575,8 @@ interface ReportData {
 app.get('/', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
   try {
     const totalStudents = 'SELECT COUNT(Username) AS total_student FROM student';
-    const totalLecturer = 'SELECT COUNT(Username) AS total_student FROM lecturer';
-    const totalAdminstaff = 'SELECT COUNT(Username) AS total_student FROM adminstaff';
+    const totalLecturer = 'SELECT COUNT(Username) AS total_lecturer FROM lecturer';
+    const totalAdminstaff = 'SELECT COUNT(Username) AS total_adminstaff FROM adminstaff';
 
     const totalMaintanance = "SELECT count(id) FROM maintanance WHERE created_time BETWEEN '2025-05-01 03:04:28' AND '2025-05-30 03:04:28'";
     const totalMaintananceCreated = "SELECT count(id) FROM maintanance WHERE created_time BETWEEN '2025-05-01 03:04:28' AND '2025-05-30 03:04:28' AND  status='created'";
@@ -546,8 +611,15 @@ app.get('/', async(req: Request<{ id: number}, RequestBody> , res: Response) => 
     //   totalMaintananceComplete: totalMaintananceCompleteResults[0]?.total_student || 0,
     // };
 
-    const results = await executeQuery(totalStudents,[]);
-    console.log(results);
+    const resultsStudents: any = await executeQuery(totalStudents,[]);
+    const resultsLecturers: any = await executeQuery(totalLecturer,[]);
+    const resultsAdminstaff: any = await executeQuery(totalLecturer,[]);
+    console.log(resultsStudents[0].total_student);
+    console.log(resultsLecturers[0].total_lecturer);
+     console.log(resultsAdminstaff[0].total_adminstaff);
+     const results = {
+      'students' : resultsStudents[0].total_student
+     }
     res.render('report/index', { data: results });
 
   } catch (error) {
