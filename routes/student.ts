@@ -232,7 +232,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   
     const query = "INSERT INTO "+LECTURER_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.redirect('/lecturer');
+    res.redirect('/lecturers');
 
   } catch (error) {
     console.error('Error Creating users:', error);
@@ -240,7 +240,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   }
 });
 
-app.post('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+app.post('/lecturer_update/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -254,7 +254,7 @@ app.post('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: 
     //todo: allow to update only one value without affecting others
     const query = 'UPDATE '+LECTURER_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.json(results);
+    res.redirect('/lecturers');
 
   } catch (error) {
     console.error('Error Updating users:', error);
@@ -402,7 +402,6 @@ app.get('/adminstaffs', async(req: Request<RequestBody> , res: Response) => {
 try {
   const query = 'SELECT * FROM '+ ADMINSTAFF_TABLE;
   const results = await executeQuery(query, []); // Pass an empty array for parameters
- //res.json(results);
   res.render('adminstaff/index' , { data: results }); // Send the results as JSON
 
 } catch (error) {
@@ -437,8 +436,8 @@ try {
 
   const query = "INSERT INTO "+ADMINSTAFF_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
   const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
+  res.redirect('/adminstaffs');
 
-  res.redirect('/adminstaff');
 } catch (error) {
   console.error('Error Creating users:', error);
   res.status(500).json({ error: 'Failed to retrieve users' });
@@ -460,7 +459,7 @@ try {
   const query = 'UPDATE '+ADMINSTAFF_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ? WHERE id =' +id;
   const results = await executeQuery(query, [username, name, surname, password, permission]);
   const message = encodeURIComponent('Updated successfully!');
-  res.redirect('/adminstaffs/'+ req.params.id +'?message=${message}');
+  res.redirect('/adminstaffs/');
 
 } catch (error) {
   console.error('Error Updating users:', error);
