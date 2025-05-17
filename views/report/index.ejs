@@ -5,7 +5,7 @@
 		<div class="main-header">
 			<div class="logo-header">
 				<a href="index.html" class="logo">
-					Ready Dashboard
+					<i class="la la la-contao red"></i> SmartCampus
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -20,7 +20,87 @@
 					<div class="container-fluid">
 
 
-						<h4 class="page-title">All Students</h4>
+                        <div class="row">
+							<div class="col-md-3">
+								<div class="card card-stats">
+									<div class="card-body ">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center icon-warning">
+													<i class="la la-pie-chart text-warning"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">Total Users</p>
+													<h4 class="card-title">150GB</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="card card-stats">
+									<div class="card-body ">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center">
+													<i class="la la-bar-chart text-success"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">Total Students</p>
+													<h4 class="card-title">$ 1,345</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="card card-stats">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center">
+													<i class="la la-times-circle-o text-danger"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">Total Lecturers</p>
+													<h4 class="card-title">23</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="card card-stats">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-5">
+												<div class="icon-big text-center">
+													<i class="la la-heart-o text-primary"></i>
+												</div>
+											</div>
+											<div class="col-7 d-flex align-items-center">
+												<div class="numbers">
+													<p class="card-category">Total Amin Staff</p>
+													<h4 class="card-title">+45K</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div> 
+						</div>
+
+
+						<h4 class="page-title">All Reports</h4>
 						<div class="row">
                             <div class="col-md-12">
                                 <div class="col-md-12">
@@ -29,82 +109,112 @@
                                 <div class="card"> 
                                     <div class="card-header">
                                         <div class="card-title">Add New Student</div>
+                                   </div>
+
+
+
+
+
+                                   
+                                   <div class="row row-card-no-pd">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p class="fw-bold mt-1">My Balance</p>
+                                                <h4><b>$ 3,018</b></h4>
+                                                <a href="#" class="btn btn-primary btn-full text-left mt-3 mb-3"><i class="la la-plus"></i> Add Balance</a>
+                                            </div>
+                                            <div class="card-footer">
+                                                <ul class="nav">
+                                                    <li class="nav-item"><a class="btn btn-default btn-link" href="#"><i class="la la-history"></i> History</a></li>
+                                                    <li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i> Refresh</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-                                        <form action="../student/create" method="POST">   
-                                            <div class="card-body row px-6">
-                                                <div class="form-group col-md-6">
-                                                    <label for="username">Username</label>
-                                                    <input type="text" class="form-control form-control-sm" id="username" name="username" placeholder="">
+                                    <div class="col-md-5">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="progress-card">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span class="text-muted">Profit</span>
+                                                        <span class="text-muted fw-bold"> $3K</span>
+                                                    </div>
+                                                    <div class="progress mb-2" style="height: 7px;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="78%"></div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="name">Name</label>
-                                                    <input type="text" class="form-control form-control-sm" id="name" name="name" placeholder="">
+                                                <div class="progress-card">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span class="text-muted">Orders</span>
+                                                        <span class="text-muted fw-bold"> 576</span>
+                                                    </div>
+                                                    <div class="progress mb-2" style="height: 7px;">
+                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="65%"></div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="surname">Surname</label>
-                                                    <input type="text" class="form-control form-control-sm" id="surname" name="surname" placeholder="">
+                                                <div class="progress-card">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span class="text-muted">Tasks Complete</span>
+                                                        <span class="text-muted fw-bold"> 70%</span>
+                                                    </div>
+                                                    <div class="progress mb-2" style="height: 7px;">
+                                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="70%"></div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="password">Course</label>
-                                                    <input type="text" class="form-control form-control-sm" id="password" name="password" placeholder="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="course">Course</label>
-                                                    <input type="text" class="form-control form-control-sm" id="course" name="course" placeholder="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="module">Module</label>
-                                                    <input type="text" class="form-control form-control-sm" id="module" name="module" laceholder="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="permission">Permissions</label>
-                                                    <select class="form-control form-control-sm" id="permission" name="permission" >
-                                                        <option value="1">1 - Student Permissions</option>
-                                                        <option value="2">2 - Lectures Permissions</option>
-                                                        <option value="3">3 - Full Permissions</option>
-                                                    </select>
+                                                <div class="progress-card">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span class="text-muted">Open Rate</span>
+                                                        <span class="text-muted fw-bold"> 60%</span>
+                                                    </div>
+                                                    <div class="progress mb-2" style="height: 7px;">
+                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="60%"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="card-action">
-                                                <button class="btn btn-success" type="submit" name="submit" >Submit</button>
-                                                <button class="btn btn-danger">Cancel</button>
-                                            </div>
-                                        </form>
+                                        </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="card card-stats">
+                                            <div class="card-body">
+                                                <p class="fw-bold mt-1">Statistic</p>
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <div class="icon-big text-center icon-warning">
+                                                            <i class="la la-pie-chart text-warning"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-7 d-flex align-items-center">
+                                                        <div class="numbers">
+                                                            <p class="card-category">Number</p>
+                                                            <h4 class="card-title">150GB</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <div class="icon-big text-center">
+                                                            <i class="la la-heart-o text-primary"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-7 d-flex align-items-center">
+                                                        <div class="numbers">
+                                                            <p class="card-category">Followers</p>
+                                                            <h4 class="card-title">+45K</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
                                 </div>
                             </div>
                             </div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<div class="card-title">List of Students</div>
-									</div>
-									<div class="card-body">
-										<table class="table table-striped mt-3">
-											<thead>
-												<tr>
-													<th scope="col">#</th>
-													<th scope="col">Username</th>
-													<th scope="col">name</th>
-													<th scope="col">Surnane</th>
-													<th scope="col">Action</th>
-												</tr>
-											</thead>
-											<tbody>
-                                                <% data.forEach(data => { %>
-                                                    <tr>
-                                                        <td><%= data.id %></td>
-                                                        <td><%= data.username %> </td>
-                                                        <td><%= data.name %> </td>
-                                                        <td><%= data.surname %> </td>
-                                                        <td><a class="btn btn-primary  btn-xs"  href="../student/<%= data.id %>">View</a></td>
-                                                    </tr>
-                                                  <% }); %>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>

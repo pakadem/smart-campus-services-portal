@@ -1,17 +1,17 @@
-import express, { Request, Response } from 'express';
+import express, { Router, Request, Response } from 'express';
 import { executeQuery } from '../database/db';
 import path from 'path';
 const app = express();
 const port = 3000;
-
+const router = Router();
 // // Set the view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views')); 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
-
-app.use(express.static(path.join(__dirname, '../public')));
+//DB
+// Create a MySQL connection pool
 const LECTURER_TABLE = 'lecturer';
 
 interface RequestBody {
@@ -24,11 +24,11 @@ interface RequestBody {
     module: string;
 }
 
-app.get('/lecturers', async(req: Request<RequestBody> , res: Response) => {
+router.get('/lecturers', async(req: Request<RequestBody> , res: Response) => {
   try {
     const query = 'SELECT * FROM '+ LECTURER_TABLE;
     const results = await executeQuery(query, []); // Pass an empty array for parameters
-     res.render('lecturer/index', { data: results });
+    res.json(results); // Send the results as JSON
 
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -36,22 +36,20 @@ app.get('/lecturers', async(req: Request<RequestBody> , res: Response) => {
   }
 })
 
-app.get('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+router.get('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
   try {
     const id = req.params.id;
     const query = 'SELECT * FROM '+ LECTURER_TABLE +' WHERE id ='+id;
     const results = await executeQuery(query, [id]); 
-    res.render('lecturer/view', { data: results });
+    res.json(results);
+
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to retrieve users' });
   }
 });
 
-app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) => {
-
-  console.log("req.body: ");
-  console.log(req);
+router.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) => {
   try {
     const username = req.body.username;
     const name = req.body.name;
@@ -63,7 +61,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   
     const query = "INSERT INTO "+LECTURER_TABLE+" (username, name, surname, password, permission, course, module) VALUES (?,?,?,?,?,?,? )";
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-    res.redirect('/lecturer');
+    res.status(201).json(results);
 
   } catch (error) {
     console.error('Error Creating users:', error);
@@ -71,7 +69,7 @@ app.post('/lecturer/create', async(req: Request<RequestBody> , res: Response) =>
   }
 });
 
-app.post('/lecturer_update/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
+router.put('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response ) => {
   try {
     const id = req.params.id;
     const username = req.body.username;
@@ -85,8 +83,7 @@ app.post('/lecturer_update/:id', async(req: Request<{ id: number}, RequestBody> 
     //todo: allow to update only one value without affecting others
     const query = 'UPDATE '+LECTURER_TABLE+' SET username = ?, name = ?, surname = ?, password = ?, permission = ?, course = ?, module = ? WHERE id =' +id;
     const results = await executeQuery(query, [username, name, surname, password, permission, course, module]);
-   const message = encodeURIComponent('Updated successfully!');
-    res.redirect('/lecturer/'+ req.params.id +'?message=${message}'); 
+    res.json(results);
 
   } catch (error) {
     console.error('Error Updating users:', error);
@@ -94,18 +91,21 @@ app.post('/lecturer_update/:id', async(req: Request<{ id: number}, RequestBody> 
   }
 });
 
-app.post('/lecturer_delete/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
+router.delete('/lecturer/:id', async(req: Request<{ id: number}, RequestBody> , res: Response) => {
     try {
       const id =  req.params.id;
       const query = 'DELETE FROM '+LECTURER_TABLE+' WHERE id =' +id;
       const results = await executeQuery(query, [id]);
-      res.redirect('/lecturer');
+      res.json(results);
+  
     } catch (error) {
       console.error('Error Deleting users:', error);
       res.status(500).json({ error: 'Failed to retrieve users' });
     }
 });
 
-app.listen(port, () => {
+router.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+export default router;

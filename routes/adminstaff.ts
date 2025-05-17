@@ -108,3 +108,5 @@ app.post('/adminstaff_delete/:id', async(req: Request<{ id: number}, RequestBody
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+export default app;

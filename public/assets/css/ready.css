@@ -2060,7 +2060,21 @@ body {
   display: inline-block;
 }
 .main-header .logo-header a.logo {
-  color: #575962;
+  padding: 3px 3px 4px 6px;
+    color: #1D62F0 !important;
+    font-size: 22px;
+    border-radius: 5px;
+}
+.main-header .logo-header a.logo i.la.la.la-contao.red {
+  padding: 0px 4px 2px 3px;
+  background: #1D62F0 !important;
+  border-color: #1D62F0 !important;
+  color: #fff;
+  font-size: 27px;
+  border-radius: 5px;
+}
+nav.navbar.navbar-header.navbar-expand-lg {
+  display: none !important;
 }
 .main-header .logo-header .navbar-toggler {
   padding-left: 0px;
