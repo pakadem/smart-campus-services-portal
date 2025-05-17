@@ -508,8 +508,7 @@ app.post('/auth', async(req: Request<RequestBody> , res: Response) => {
 
     let results:any = 0;
     if(permission == 1){
-      const query = "SELECT count(id) as amount FROM student WHERE username='"+username+"' AND password='"+password+"';";
-      console.log(query);
+      const query = "SELECT count(id) AS amount FROM student WHERE username='"+username+"' AND password='"+password+"';";
       let results: any = await executeQuery(query, []);
       results[0].amount;
       if(results[0].amount){
@@ -518,7 +517,7 @@ app.post('/auth', async(req: Request<RequestBody> , res: Response) => {
       console.log( results ==  '[ { amount: 1 } ]');
     }
     if (permission == 2) {
-      const query = "SELECT count(id) FROM lecturer WHERE username='"+username+"' AND password='"+password+"';";
+      const query = "SELECT count(id) AS amount  FROM lecturer WHERE username='"+username+"' AND password='"+password+"';";
       let results: any = await executeQuery(query, []);
       results[0].amount;
       if(results[0].amount){
@@ -526,8 +525,9 @@ app.post('/auth', async(req: Request<RequestBody> , res: Response) => {
       }
     } 
     if (permission == 3) {
-      const query = "SELECT count(id) FROM adminstaff WHERE username='"+username+"' AND password='"+password+"';";
+      const query = "SELECT count(id) AS amount  FROM adminstaff WHERE username='"+username+"' AND password='"+password+"';";
       let results: any = await executeQuery(query, []);
+  
       results[0].amount;
       if(results[0].amount){
         res.redirect('/');
